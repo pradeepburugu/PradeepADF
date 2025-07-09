@@ -1,0 +1,9 @@
+{
+	"name": "pradeep-adf-ws",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "80172594-852f-48ff-a05e-5ca04036d52b",
+		"tenantId": "d7a555ca-c9d9-4b03-a135-c127dcbd1586"
+	}
+}
