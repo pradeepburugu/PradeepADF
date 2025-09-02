@@ -29,7 +29,8 @@
 					"sink": {
 						"type": "DelimitedTextSink",
 						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
+							"type": "AzureBlobFSWriteSettings",
+							"copyBehavior": "FlattenHierarchy"
 						},
 						"formatSettings": {
 							"type": "DelimitedTextWriteSettings",
@@ -52,7 +53,8 @@
 						"referenceName": "ds_test_gen2_biiling_report",
 						"type": "DatasetReference",
 						"parameters": {
-							"source_folder": "test/source"
+							"source_folder": "test/source",
+							"Source_File_Name": "Billing_Report.csv"
 						}
 					}
 				],
