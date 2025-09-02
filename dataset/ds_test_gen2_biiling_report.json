@@ -1,0 +1,106 @@
+{
+	"name": "ds_test_gen2_biiling_report",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"source_folder": {
+				"type": "string"
+			},
+			"Source_File_Name": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().Source_File_Name",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().source_folder",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Consumer ID",
+				"type": "String"
+			},
+			{
+				"name": "Consumer Name",
+				"type": "String"
+			},
+			{
+				"name": "Service",
+				"type": "String"
+			},
+			{
+				"name": "Agency",
+				"type": "String"
+			},
+			{
+				"name": "Units",
+				"type": "String"
+			},
+			{
+				"name": "Unit Price",
+				"type": "String"
+			},
+			{
+				"name": "Total Amount",
+				"type": "String"
+			},
+			{
+				"name": "Care Program",
+				"type": "String"
+			},
+			{
+				"name": "Service Date",
+				"type": "String"
+			},
+			{
+				"name": "Provider",
+				"type": "String"
+			},
+			{
+				"name": "Sub Provider",
+				"type": "String"
+			},
+			{
+				"name": "Site",
+				"type": "String"
+			},
+			{
+				"name": "Fund Identifer",
+				"type": "String"
+			},
+			{
+				"name": "Sub Service",
+				"type": "String"
+			},
+			{
+				"name": "Place of Service",
+				"type": "String"
+			},
+			{
+				"name": "Delivery Status",
+				"type": "String"
+			},
+			{
+				"name": "Billable/ Non-billable",
+				"type": "String"
+			}
+		]
+	}
+}
