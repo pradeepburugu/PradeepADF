@@ -1,17 +1,24 @@
 {
 	"name": "ls_pradeep_local_file_system",
-	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"annotations": [],
 		"type": "FileServer",
 		"typeProperties": {
 			"host": "D:\\",
 			"userId": "SVCS",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyNjU1NTZhZS0yMzJjLTRhYWUtYWI1NC00OWZjN2MwOWI1ZWUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_manaswini_dev_kv",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "localMachinepassword"
+			}
 		},
 		"connectVia": {
 			"referenceName": "IR-manaswini-dev",
 			"type": "IntegrationRuntimeReference"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
 }
