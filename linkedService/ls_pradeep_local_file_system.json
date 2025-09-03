@@ -1,0 +1,17 @@
+{
+	"name": "ls_pradeep_local_file_system",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "D:\\",
+			"userId": "SVCS",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI5M2U4NTM1ZS05YWM1LTQ4YmYtOThlOC1jZGNmOTdhZmY0YmIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IR-manaswini-dev",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
