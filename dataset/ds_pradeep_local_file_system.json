@@ -1,0 +1,70 @@
+{
+	"name": "ds_pradeep_local_file_system",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_pradeep_local_file_system",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"sheetName": {
+				"type": "string"
+			},
+			"folderPath": {
+				"type": "string"
+			},
+			"fileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": {
+				"value": "@dataset().sheetName",
+				"type": "Expression"
+			},
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": {
+					"value": "@dataset().fileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().folderPath",
+					"type": "Expression"
+				}
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "HCPCS",
+				"type": "String"
+			},
+			{
+				"name": "Meal Type",
+				"type": "String"
+			},
+			{
+				"name": "Care Program",
+				"type": "String"
+			},
+			{
+				"name": "PayerUnit Price",
+				"type": "String"
+			},
+			{
+				"name": "Provider",
+				"type": "String"
+			},
+			{
+				"name": "Vendor",
+				"type": "String"
+			},
+			{
+				"name": "Vendor Unit Price",
+				"type": "String"
+			}
+		]
+	}
+}
