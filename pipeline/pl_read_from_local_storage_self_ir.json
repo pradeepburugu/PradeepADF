@@ -69,7 +69,7 @@
 						"referenceName": "ds_test_gen2_biiling_report",
 						"type": "DatasetReference",
 						"parameters": {
-							"source_folder": "test/target",
+							"source_folder": "test/source",
 							"Source_File_Name": {
 								"value": "@concat(pipeline().parameters.sheetName,'.csv')",
 								"type": "Expression"
