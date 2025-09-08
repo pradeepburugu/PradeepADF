@@ -1,0 +1,112 @@
+{
+	"name": "pl_import_concur_professional_orchestration",
+	"properties": {
+		"activities": [
+			{
+				"name": "get_oauth2_token",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"headers": {
+						"Content-Type": "application/x-www-form-urlencoded"
+					},
+					"url": {
+						"value": "@concat(pipeline().parameters.base_url,'/oauth2/v0/token')",
+						"type": "Expression"
+					},
+					"body": {
+						"value": "client_id=@{pipeline().parameters.client_id}&client_secret=@{pipeline().parameters.client_secret}&grant_type=@{pipeline().parameters.grant_type}&refresh_token=@{pipeline().parameters.refresh_token}\n",
+						"type": "Expression"
+					},
+					"authentication": {
+						"type": "Basic",
+						"username": {
+							"value": "@pipeline().parameters.username",
+							"type": "Expression"
+						},
+						"password": {
+							"type": "AzureKeyVaultSecret",
+							"store": {
+								"referenceName": "ls_manaswini_dev_kv",
+								"type": "LinkedServiceReference"
+							},
+							"secretName": "dentsplyOauth2password"
+						}
+					}
+				}
+			},
+			{
+				"name": "access_token",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "get_oauth2_token",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "access_token",
+					"value": {
+						"value": "concat('Bearer ',activity('get_oauth2_token').output.access_token)",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"username": {
+				"type": "string",
+				"defaultValue": "b63fe8bb-9660-4797-8fa9-dc0f317c4a29"
+			},
+			"base_url": {
+				"type": "string",
+				"defaultValue": "https://us.api.concursolutions.com"
+			},
+			"charset": {
+				"type": "string",
+				"defaultValue": "UTF-8"
+			},
+			"client_id": {
+				"type": "string",
+				"defaultValue": "34569bac-d003-4a2e-b69e-775da4227921"
+			},
+			"client_secret": {
+				"type": "string",
+				"defaultValue": "d8a555ea-1bce-475b-8586-6fc425f55a70"
+			},
+			"grant_type": {
+				"type": "string",
+				"defaultValue": "refresh_token"
+			},
+			"refresh_token": {
+				"type": "string",
+				"defaultValue": "20e4oaq2c7dntny82a2mdxi2245a3z"
+			}
+		},
+		"variables": {
+			"access_token": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Concur"
+		},
+		"annotations": []
+	}
+}
