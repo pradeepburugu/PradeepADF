@@ -45,8 +45,8 @@
 				}
 			},
 			{
-				"name": "access_token",
-				"type": "SetVariable",
+				"name": "get_Job_Definition_ID",
+				"type": "WebActivity",
 				"dependsOn": [
 					{
 						"activity": "get_oauth2_token",
@@ -56,17 +56,55 @@
 					}
 				],
 				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
 					"secureOutput": false,
 					"secureInput": false
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "access_token",
-					"value": {
-						"value": "concat('Bearer ',activity('get_oauth2_token').output.access_token)",
+					"method": "GET",
+					"headers": {
+						"Content-Type": "application/json",
+						"charset": {
+							"value": "@pipeline().parameters.charset",
+							"type": "Expression"
+						},
+						"Authorization": {
+							"value": "Bearer @{activity('get_oauth2_token').output.access_token}",
+							"type": "Expression"
+						}
+					},
+					"url": {
+						"value": "@concat(pipeline().parameters.base_url,'/api/expense/extract/v1.0/')",
+						"type": "Expression"
+					},
+					"body": {
+						"value": "client_id=@{pipeline().parameters.client_id}&client_secret=@{pipeline().parameters.client_secret}&grant_type=@{pipeline().parameters.grant_type}&refresh_token=@{pipeline().parameters.refresh_token}\n",
 						"type": "Expression"
 					}
 				}
+			},
+			{
+				"name": "GetJobDefinition",
+				"type": "AzureFunctionActivity",
+				"dependsOn": [
+					{
+						"activity": "get_Job_Definition_ID",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": []
 			}
 		],
 		"parameters": {
@@ -97,11 +135,6 @@
 			"refresh_token": {
 				"type": "string",
 				"defaultValue": "20e4oaq2c7dntny82a2mdxi2245a3z"
-			}
-		},
-		"variables": {
-			"access_token": {
-				"type": "String"
 			}
 		},
 		"folder": {
