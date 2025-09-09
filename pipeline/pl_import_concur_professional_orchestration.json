@@ -104,7 +104,19 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"functionName": "getJobDefinitionId",
+					"body": {
+						"value": "@activity('get_Job_Definition_ID').output.Respnse",
+						"type": "Expression"
+					},
+					"method": "POST"
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_get_job_definition_id",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"parameters": {
