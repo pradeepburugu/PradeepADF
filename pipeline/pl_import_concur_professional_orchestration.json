@@ -206,6 +206,10 @@
 			"refresh_token": {
 				"type": "string",
 				"defaultValue": "20e4oaq2c7dntny82a2mdxi2245a3z"
+			},
+			"client_name": {
+				"type": "string",
+				"defaultValue": "dentsply"
 			}
 		},
 		"variables": {
