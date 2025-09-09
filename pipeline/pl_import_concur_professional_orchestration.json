@@ -141,6 +141,41 @@
 						"type": "Expression"
 					}
 				}
+			},
+			{
+				"name": "get_job_list",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "GetJobDefinition",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "GET",
+					"headers": {
+						"Content-Type": "application/json",
+						"Authorization": {
+							"value": "@variables('access_token')",
+							"type": "Expression"
+						},
+						"charset": "UTF-8"
+					},
+					"url": {
+						"value": "@concat(pipeline().parameters.base_url,'/api/expense/extract/v1.0/',activity('GetJobDefinition').output.id,'/job')",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"parameters": {
