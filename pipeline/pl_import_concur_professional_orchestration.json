@@ -176,6 +176,43 @@
 						"type": "Expression"
 					}
 				}
+			},
+			{
+				"name": "df_xml_parser",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "get_job_list",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "df_xml_parser",
+						"type": "DataFlowReference",
+						"parameters": {
+							"sourcexml": {
+								"value": "@activity('GetJobDefinition').output.Response",
+								"type": "Expression"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
 			}
 		],
 		"parameters": {
