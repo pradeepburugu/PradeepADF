@@ -206,7 +206,8 @@
 						"formatSettings": {
 							"type": "XmlReadSettings",
 							"validationMode": "none",
-							"namespaces": true
+							"detectDataType": true,
+							"namespaces": false
 						}
 					},
 					"sink": {
@@ -223,7 +224,7 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
-						"mapComplexValuesToString": true
+						"mapComplexValuesToString": false
 					}
 				},
 				"inputs": [
