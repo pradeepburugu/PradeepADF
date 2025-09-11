@@ -238,7 +238,7 @@
 						"parameters": {
 							"url": "''",
 							"auth": {
-								"value": "@variables('access_token')",
+								"value": "''",
 								"type": "Expression"
 							},
 							"cont": "application/json",
