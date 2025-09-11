@@ -1,0 +1,30 @@
+{
+	"name": "Xml1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_get_concur_file_links",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"ContentType": {
+				"type": "string"
+			},
+			"Authorization": {
+				"type": "string"
+			},
+			"url": {
+				"type": "string"
+			},
+			"charset": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Xml",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation"
+			}
+		}
+	}
+}
