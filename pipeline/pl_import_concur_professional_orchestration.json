@@ -220,13 +220,7 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "df_xml_parser",
-						"type": "DataFlowReference",
-						"parameters": {
-							"sourcexml": {
-								"value": "'@{variables('xmlfileresponse')}'",
-								"type": "Expression"
-							}
-						}
+						"type": "DataFlowReference"
 					},
 					"compute": {
 						"coreCount": 8,
