@@ -4,14 +4,16 @@
 	"properties": {
 		"type": "HttpServer",
 		"typeProperties": {
+			"url": "<HTTP endpoint>",
 			"authenticationType": "Anonymous",
 			"authHeader": {
-				"x-api-key": {
+				"Authorization": {
 					"type": "SecureString",
 					"value": "**********"
-				}
-			},
-			"url": "<HTTP endpoint>"
+				},
+				"Content-Type": "<Content-Type>",
+				"charset": "<charset>"
+			}
 		},
 		"annotations": []
 	}
