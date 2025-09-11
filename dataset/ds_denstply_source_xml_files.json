@@ -1,0 +1,48 @@
+{
+	"name": "ds_denstply_source_xml_files",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_get_concur_file_links",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"url": {
+					"value": "@dataset().auth",
+					"type": "Expression"
+				},
+				"Authorization": {
+					"value": "@dataset().auth",
+					"type": "Expression"
+				},
+				"ContentType": {
+					"value": "@dataset().cont",
+					"type": "Expression"
+				},
+				"charset": {
+					"value": "@dataset().charset",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"url": {
+				"type": "string"
+			},
+			"auth": {
+				"type": "string"
+			},
+			"cont": {
+				"type": "string"
+			},
+			"charset": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Xml",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation"
+			}
+		}
+	}
+}
