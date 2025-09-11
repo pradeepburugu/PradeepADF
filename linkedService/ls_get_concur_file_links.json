@@ -3,11 +3,9 @@
 	"properties": {
 		"type": "HttpServer",
 		"typeProperties": {
-			"authenticationType": "Anonymous",
-			"url": "<Base HTTP URL>",
 			"additionalHeaders": {
-				"Authorization": "Basic <base64-encoded-credentials>",
-				"Content-Type": "application/json",
+				"Authorization": "<value>",
+				"Content-Type": "<value>",
 				"charset": "utf-8"
 			}
 		},
