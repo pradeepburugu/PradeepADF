@@ -1,7 +1,6 @@
 {
 	"name": "ls_get_concur_file_links",
 	"properties": {
-		"type": "HttpServer",
 		"parameters": {
 			"url": {
 				"type": "String"
@@ -16,15 +15,16 @@
 				"type": "String"
 			}
 		},
+		"annotations": [],
+		"type": "HttpServer",
 		"typeProperties": {
-			"authenticationType": "Anonymous",
 			"url": "@{linkedService().url}",
-			"additionalHeaders": {
+			"authenticationType": "Anonymous",
+			"authHeader": {
 				"Authorization": "@{linkedService().Authorization}",
 				"Content-Type": "@{linkedService().ContentType}",
 				"charset": "@{linkedService().charset}"
 			}
-		},
-		"annotations": []
+		}
 	}
 }
