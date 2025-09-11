@@ -3,7 +3,25 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_get_concur_file_links",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"url": {
+					"value": "@dataset().url",
+					"type": "Expression"
+				},
+				"Authorization": {
+					"value": "@dataset().aut",
+					"type": "Expression"
+				},
+				"ContentType": {
+					"value": "@dataset().content",
+					"type": "Expression"
+				},
+				"charset": {
+					"value": "@dataset().char",
+					"type": "Expression"
+				}
+			}
 		},
 		"parameters": {
 			"url": {
