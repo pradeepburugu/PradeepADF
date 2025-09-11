@@ -198,35 +198,34 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "BinarySource",
+						"type": "XmlSource",
 						"storeSettings": {
 							"type": "HttpReadSettings",
 							"requestMethod": "GET"
 						},
 						"formatSettings": {
-							"type": "BinaryReadSettings",
-							"compressionProperties": {
-								"type": "ZipDeflateReadSettings"
-							}
+							"type": "XmlReadSettings",
+							"validationMode": "none",
+							"namespaces": true
 						}
 					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_denstsply_source_files",
+						"referenceName": "ds_denstply_source_xml_files",
 						"type": "DatasetReference",
 						"parameters": {
 							"url": {
 								"value": "@concat(pipeline().parameters.base_url,'/api/expense/extract/v1.0/',activity('GetJobDefinition').output.id,'/job')",
 								"type": "Expression"
 							},
-							"aut": {
+							"auth": {
 								"value": "@variables('access_token')",
 								"type": "Expression"
 							},
-							"content": "application/json",
-							"char": {
+							"cont": "application/json",
+							"charset": {
 								"value": "@pipeline().parameters.charset",
 								"type": "Expression"
 							}
