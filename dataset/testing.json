@@ -1,0 +1,53 @@
+{
+	"name": "testing",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Payer Unit Prices.csv",
+				"folderPath": "source",
+				"fileSystem": "test"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "HCPCS",
+				"type": "String"
+			},
+			{
+				"name": "Meal Type",
+				"type": "String"
+			},
+			{
+				"name": "Care Program",
+				"type": "String"
+			},
+			{
+				"name": "PayerUnit Price",
+				"type": "String"
+			},
+			{
+				"name": "Provider",
+				"type": "String"
+			},
+			{
+				"name": "Vendor",
+				"type": "String"
+			},
+			{
+				"name": "Vendor Unit Price",
+				"type": "String"
+			}
+		]
+	}
+}
