@@ -1,0 +1,18 @@
+{
+	"name": "ls_get_concur_file_links",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "HttpServer",
+		"typeProperties": {
+			"authenticationType": "Anonymous",
+			"authHeader": {
+				"x-api-key": {
+					"type": "SecureString",
+					"value": "**********"
+				}
+			},
+			"url": "<HTTP endpoint>"
+		},
+		"annotations": []
+	}
+}
