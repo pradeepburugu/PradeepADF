@@ -1,0 +1,44 @@
+{
+	"name": "ds_test",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RestService1",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"url": {
+					"value": "@dataset().url",
+					"type": "Expression"
+				},
+				"Authorization": {
+					"value": "@dataset().Authorization",
+					"type": "Expression"
+				},
+				"ContentType": {
+					"value": "@dataset().ContentType",
+					"type": "Expression"
+				},
+				"charset": {
+					"value": "@dataset().charset",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"url": {
+				"type": "string"
+			},
+			"Authorization": {
+				"type": "string"
+			},
+			"charset": {
+				"type": "string"
+			},
+			"ContentType": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
