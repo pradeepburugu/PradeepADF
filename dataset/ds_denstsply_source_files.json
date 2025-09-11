@@ -1,0 +1,34 @@
+{
+	"name": "ds_denstsply_source_files",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_get_concur_file_links",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"url": {
+				"type": "string"
+			},
+			"aut": {
+				"type": "string"
+			},
+			"content": {
+				"type": "string"
+			},
+			"char": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation"
+			},
+			"compression": {
+				"type": "ZipDeflate",
+				"level": "Fastest"
+			}
+		}
+	}
+}
