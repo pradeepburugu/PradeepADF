@@ -147,7 +147,7 @@
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "GetJobDefinition",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -176,84 +176,6 @@
 						"type": "Expression"
 					}
 				}
-			},
-			{
-				"name": "Copy data1",
-				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "GetJobDefinition",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "XmlSource",
-						"storeSettings": {
-							"type": "HttpReadSettings",
-							"requestMethod": "GET"
-						},
-						"formatSettings": {
-							"type": "XmlReadSettings",
-							"validationMode": "none",
-							"detectDataType": true,
-							"namespaces": false
-						}
-					},
-					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
-						}
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mapComplexValuesToString": false
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "ds_denstply_source_xml_files",
-						"type": "DatasetReference",
-						"parameters": {
-							"url": {
-								"value": "@concat(pipeline().parameters.base_url,'/api/expense/extract/v1.0/',activity('GetJobDefinition').output.id,'/job')",
-								"type": "Expression"
-							},
-							"auth": {
-								"value": "@variables('access_token')",
-								"type": "Expression"
-							},
-							"cont": "application/json",
-							"charset": {
-								"value": "@pipeline().parameters.charset",
-								"type": "Expression"
-							}
-						}
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "ds_sink_xml",
-						"type": "DatasetReference"
-					}
-				]
 			}
 		],
 		"parameters": {
