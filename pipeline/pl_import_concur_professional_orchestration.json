@@ -5,6 +5,8 @@
 			{
 				"name": "get_oauth2_token",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -47,6 +49,8 @@
 			{
 				"name": "get_Job_Definition_ID",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "access_token",
@@ -89,6 +93,8 @@
 			{
 				"name": "GetJobDefinition",
 				"type": "AzureFunctionActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "get_Job_Definition_ID",
@@ -121,6 +127,8 @@
 			{
 				"name": "access_token",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "get_oauth2_token",
@@ -228,10 +236,7 @@
 						"referenceName": "ds_denstply_source_xml_files",
 						"type": "DatasetReference",
 						"parameters": {
-							"url": {
-								"value": "@concat(pipeline().parameters.base_url,'/api/expense/extract/v1.0/',activity('GetJobDefinition').output.id,'/job')",
-								"type": "Expression"
-							},
+							"url": "''",
 							"auth": {
 								"value": "@variables('access_token')",
 								"type": "Expression"

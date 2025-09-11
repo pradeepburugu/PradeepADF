@@ -6,19 +6,19 @@
 			"type": "LinkedServiceReference",
 			"parameters": {
 				"url": {
-					"value": "@dataset().url",
+					"value": "https://www.concursolutions.com/api/expense/extract/v1.0/gWpa1WAxGrbnT4auBp3mpm$s26rl7QZxFe2A/job",
 					"type": "Expression"
 				},
 				"Authorization": {
-					"value": "@dataset().auth",
+					"value": "Bearer eyJraWQiOiIxNDU1NjE0MDIyIiwiYWxnIjoiUlMyNTYiLCJ0eXAiOiJKV1QifQ.eyJjb25jdXIuc2NvcGVzIjpbIm9wZW5pZCIsImNvbXBhbnkucmVhZCIsIkFUVEVORCIsIkVYVFJDVCIsIlBBWUJBVCJdLCJhdWQiOiIqIiwiY29uY3VyLmFwcElkIjoiMzQ1NjliYWMtZDAwMy00YTJlLWI2OWUtNzc1ZGE0MjI3OTIxIiwic3ViIjoiYjYzZmU4YmItOTY2MC00Nzk3LThmYTktZGMwZjMxN2M0YTI5IiwiaXNzIjoiaHR0cHM6Ly91czIuYXBpLmNvbmN1cnNvbHV0aW9ucy5jb20iLCJjb25jdXIucHJvZmlsZSI6Imh0dHBzOi8vdXMyLmFwaS5jb25jdXJzb2x1dGlvbnMuY29tL3Byb2ZpbGUvdjEvcHJpbmNpcGFscy9iNjNmZThiYi05NjYwLTQ3OTctOGZhOS1kYzBmMzE3YzRhMjkiLCJleHAiOjE3NTc1OTQxMDEsImNvbmN1ci52ZXJzaW9uIjozLCJjb25jdXIudHlwZSI6ImNvbXBhbnkiLCJjb25jdXIuYXBwIjoiaHR0cHM6Ly91czIuYXBpLmNvbmN1cnNvbHV0aW9ucy5jb20vcHJvZmlsZS92MS9hcHBzLzM0NTY5YmFjLWQwMDMtNGEyZS1iNjllLTc3NWRhNDIyNzkyMSIsIm5iZiI6MTc1NzU5MDQ5MSwiaWF0IjoxNzU3NTkwNTAxfQ.iFqzf4pO3RRKeRpK0xebNb2IHMYTdtrzHJ8uTyaL2vB08tle7JxkNgduXObv7MIxPHwY1IKK7HZBgRkSwLdtylGFA-aDSfSmZ011cWY53Zoxd66u_YJZN4NLymBWTokMSWNUVtesSzpuRGdlIbrjOAIYcTnZMCWIl77-4WwO46rWooknTzfNsNTDg6VO_7_23wnkZr8A2Yjxnyuehexhyr2GVN0Pr92NuFoQLpw_ym42TFGMP5oyeQ7n21MbsR6ZnhU4juQarNY50J0CprkEulaFwXzsJWSNBfNnbWMBpA5sj2-CZQf8WcODpBwwvUrw1X3xK9J5zXZCBdTEx67DnQ",
 					"type": "Expression"
 				},
 				"ContentType": {
-					"value": "@dataset().cont",
+					"value": "application/json",
 					"type": "Expression"
 				},
 				"charset": {
-					"value": "@dataset().charset",
+					"value": "UTF-8",
 					"type": "Expression"
 				}
 			}
