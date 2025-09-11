@@ -12,10 +12,17 @@
 					"name": "dummy"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "flatten1"
 				}
 			],
 			"scriptLines": [
@@ -34,7 +41,27 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> dummy",
-				"dummy derive(xml = $sourcexml) ~> derivedColumn1"
+				"dummy derive(xml = $sourcexml) ~> derivedColumn1",
+				"derivedColumn1 foldDown(unroll(),",
+				"     mapColumn(",
+				"          HCPCS,",
+				"          {Meal Type},",
+				"          {Care Program},",
+				"          {PayerUnit Price},",
+				"          Provider,",
+				"          Vendor,",
+				"          {Vendor Unit Price},",
+				"          xml",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten1",
+				"flatten1 sink(validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     store: 'cache',",
+				"     format: 'inline',",
+				"     output: false,",
+				"     saveOrder: 1) ~> sink1"
 			]
 		}
 	}
