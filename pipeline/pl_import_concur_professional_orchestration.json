@@ -147,7 +147,7 @@
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "GetJobDefinition",
+						"activity": "xml",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -178,11 +178,11 @@
 				}
 			},
 			{
-				"name": "df_xml_parser",
-				"type": "ExecuteDataFlow",
+				"name": "xml",
+				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "get_job_list",
+						"activity": "GetJobDefinition",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -197,22 +197,59 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"dataflow": {
-						"referenceName": "df_xml_parser",
-						"type": "DataFlowReference",
+					"source": {
+						"type": "XmlSource",
+						"storeSettings": {
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
+						},
+						"formatSettings": {
+							"type": "XmlReadSettings",
+							"validationMode": "none",
+							"namespaces": true
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings",
+							"copyBehavior": "FlattenHierarchy"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_denstply_source_xml_files",
+						"type": "DatasetReference",
 						"parameters": {
-							"sourcexml": {
-								"value": "@activity('GetJobDefinition').output.Response",
+							"url": {
+								"value": "@concat(pipeline().parameters.base_url,'/api/expense/extract/v1.0/',activity('GetJobDefinition').output.id,'/job')",
+								"type": "Expression"
+							},
+							"auth": {
+								"value": "@variables('access_token')",
+								"type": "Expression"
+							},
+							"cont": "application/json",
+							"charset": {
+								"value": "@pipeline().parameters.charset",
 								"type": "Expression"
 							}
 						}
-					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
-					},
-					"traceLevel": "Fine"
-				}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_sink_xml",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"parameters": {
