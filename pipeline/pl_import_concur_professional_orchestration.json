@@ -147,7 +147,7 @@
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "xml",
+						"activity": "GetJobDefinition",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -178,11 +178,32 @@
 				}
 			},
 			{
-				"name": "xml",
-				"type": "Copy",
+				"name": "xml file list",
+				"type": "SetVariable",
 				"dependsOn": [
 					{
-						"activity": "GetJobDefinition",
+						"activity": "get_job_list",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "xmlfileresponse",
+					"value": ""
+				}
+			},
+			{
+				"name": "df_xml_parser",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "xml file list",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -197,59 +218,22 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"source": {
-						"type": "XmlSource",
-						"storeSettings": {
-							"type": "HttpReadSettings",
-							"requestMethod": "GET"
-						},
-						"formatSettings": {
-							"type": "XmlReadSettings",
-							"validationMode": "none",
-							"namespaces": true
-						}
-					},
-					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings",
-							"copyBehavior": "FlattenHierarchy"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
-						}
-					},
-					"enableStaging": false
-				},
-				"inputs": [
-					{
-						"referenceName": "ds_denstply_source_xml_files",
-						"type": "DatasetReference",
+					"dataflow": {
+						"referenceName": "df_xml_parser",
+						"type": "DataFlowReference",
 						"parameters": {
-							"url": {
-								"value": "@concat(pipeline().parameters.base_url,'/api/expense/extract/v1.0/',activity('GetJobDefinition').output.id,'/job')",
-								"type": "Expression"
-							},
-							"Authorization": {
-								"value": "@variables('access_token')",
-								"type": "Expression"
-							},
-							"ContentType": "application/json",
-							"charset": {
-								"value": "@pipeline().parameters.charset",
+							"sourcexml": {
+								"value": "'@{variables('xmlfileresponse')}'",
 								"type": "Expression"
 							}
 						}
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "ds_sink_xml",
-						"type": "DatasetReference"
-					}
-				]
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
 			}
 		],
 		"parameters": {
@@ -288,6 +272,9 @@
 		},
 		"variables": {
 			"access_token": {
+				"type": "String"
+			},
+			"xmlfileresponse": {
 				"type": "String"
 			}
 		},
