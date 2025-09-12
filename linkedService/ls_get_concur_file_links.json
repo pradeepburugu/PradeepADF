@@ -1,14 +1,9 @@
 {
 	"name": "ls_get_concur_file_links",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"parameters": {
 			"url": {
-				"type": "String"
-			},
-			"ContentType": {
-				"type": "String"
-			},
-			"charset": {
 				"type": "String"
 			}
 		},
@@ -16,7 +11,17 @@
 		"type": "HttpServer",
 		"typeProperties": {
 			"url": "@{linkedService().url}",
-			"authenticationType": "Anonymous"
+			"authenticationType": "Anonymous",
+			"authHeaders": {
+				"Authorization": {
+					"type": "SecureString",
+					"value": "**********"
+				},
+				"Content-Type": {
+					"type": "SecureString",
+					"value": "**********"
+				}
+			}
 		}
 	}
 }
