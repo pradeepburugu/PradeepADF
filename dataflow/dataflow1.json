@@ -13,9 +13,19 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "parse1"
+				},
+				{
+					"name": "flatten1"
+				}
+			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          {_corrupt_record} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'xml',",
@@ -24,7 +34,17 @@
 				"     fileName: 'test1.txt',",
 				"     validationMode: 'none',",
 				"     namespaces: true,",
-				"     namespacePrefixes: ['http://www.concursolutions.com/api/expense/extract/2010/02'->'ns']) ~> XML"
+				"     namespacePrefixes: ['http://www.concursolutions.com/api/expense/extract/2010/02'->'ns']) ~> XML",
+				"flatten1 parse(id = ERROR_FUNCTION(''),",
+				"     format: 'xml',",
+				"     namespaces: true,",
+				"     namespacePrefixes: ['http://www.concursolutions.com/api/expense/extract/2010/02'->'ns']) ~> parse1",
+				"XML foldDown(unroll(),",
+				"     mapColumn(",
+				"          {_corrupt_record}",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten1"
 			]
 		}
 	}
