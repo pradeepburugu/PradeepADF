@@ -227,7 +227,7 @@
 							{
 								"name": "xml",
 								"value": {
-									"value": "@substring(replace(string(variables('xmlfileresponse')), '\\\\\"', ''), 1, sub(length(replace(string(variables('xmlfileresponse')), '\\\\\"', '')), 2))",
+									"value": "@substring(string(variables('xmlfileresponse')), 1, sub(length(string(variables('xmlfileresponse'))), 2))",
 									"type": "Expression"
 								}
 							}
