@@ -5,10 +5,6 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"dataset": {
-						"referenceName": "testing",
-						"type": "DatasetReference"
-					},
 					"name": "source1"
 				}
 			],
@@ -39,9 +35,9 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     limit: 100,",
-				"     ignoreNoFilesFound: false) ~> source1",
-				"select1 parse(id = ERROR_FUNCTION('ns:job/ns:id__NEW_LINE_R____NEW_LINE_N__') ? (id as string),",
+				"     limit: 100) ~> source1",
+				"select1 parse(id = ns:job/ns:id\r",
+				" ? (id as string),",
 				"     format: 'xml',",
 				"     namespaces: true,",
 				"     namespacePrefixes: ['http://www.concursolutions.com/api/expense/extract/2010/02'->'ns']) ~> parse1",

@@ -147,7 +147,7 @@
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "GetJobDefinition",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -196,83 +196,10 @@
 				"typeProperties": {
 					"variableName": "xmlfileresponse",
 					"value": {
-						"value": "@activity('get_job_list').output.Response",
+						"value": "@string(activity('get_job_list').output.Response)",
 						"type": "Expression"
 					}
 				}
-			},
-			{
-				"name": "Copy data1",
-				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "GetJobDefinition",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "XmlSource",
-						"storeSettings": {
-							"type": "HttpReadSettings",
-							"requestMethod": "GET"
-						},
-						"formatSettings": {
-							"type": "XmlReadSettings",
-							"validationMode": "none",
-							"detectDataType": true,
-							"namespaces": true,
-							"compressionProperties": {
-								"type": "ZipDeflateReadSettings"
-							}
-						}
-					},
-					"sink": {
-						"type": "BinarySink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings",
-							"copyBehavior": "FlattenHierarchy"
-						}
-					},
-					"enableStaging": false
-				},
-				"inputs": [
-					{
-						"referenceName": "Xml1",
-						"type": "DatasetReference",
-						"parameters": {
-							"ContentType": "application/json",
-							"Authorization": {
-								"value": "@variables('access_token')",
-								"type": "Expression"
-							},
-							"url": {
-								"value": "@concat(pipeline().parameters.base_url,'/api/expense/extract/v1.0/',activity('GetJobDefinition').output.id,'/job')",
-								"type": "Expression"
-							},
-							"charset": {
-								"value": "@pipeline().parameters.charset",
-								"type": "Expression"
-							}
-						}
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "Binary1",
-						"type": "DatasetReference"
-					}
-				]
 			}
 		],
 		"parameters": {
