@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "test2.txt",
+				"fileName": "test3.txt",
 				"folderPath": "dentsply/xmlfiles",
 				"fileSystem": "concur"
 			},

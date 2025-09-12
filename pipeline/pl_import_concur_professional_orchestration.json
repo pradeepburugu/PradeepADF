@@ -347,9 +347,8 @@
 					"source": {
 						"type": "XmlSource",
 						"storeSettings": {
-							"type": "AzureBlobFSReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
 						},
 						"formatSettings": {
 							"type": "XmlReadSettings",
@@ -357,11 +356,34 @@
 							"namespaces": true
 						}
 					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
-						"referenceName": "Xml1",
+						"referenceName": "ds_test",
+						"type": "DatasetReference",
+						"parameters": {
+							"url": {
+								"value": "@concat(pipeline().parameters.base_url,'/api/expense/extract/v1.0/',activity('GetJobDefinition').output.id,'/job')",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DelimitedText1",
 						"type": "DatasetReference"
 					}
 				]
