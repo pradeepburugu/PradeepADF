@@ -196,7 +196,7 @@
 				"typeProperties": {
 					"variableName": "xmlfileresponse",
 					"value": {
-						"value": "@substring(replace(string(activity('get_job_list').output.Response), '\\\\\"', ''), 1, sub(length(replace(string(activity('get_job_list').output.Response), '\\\\\"', '')), 2))\n\n",
+						"value": "@activity('get_job_list').output.Response",
 						"type": "Expression"
 					}
 				}
@@ -226,7 +226,7 @@
 						"additionalColumns": [
 							{
 								"name": "xml",
-								"value": "@substring(string(variables('xmlfileresponse')), 1, sub(length(string(variables('xmlfileresponse'))), 2))"
+								"value": "@variables('xmlfileresponse')"
 							}
 						],
 						"storeSettings": {
@@ -278,71 +278,6 @@
 				"outputs": [
 					{
 						"referenceName": "DelimitedText1",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "Copy data1",
-				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Copy data to storage",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "XmlSource",
-						"storeSettings": {
-							"type": "AzureBlobFSReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "XmlReadSettings",
-							"validationMode": "none",
-							"detectDataType": true,
-							"namespaces": true,
-							"namespacePrefixes": {
-								"http://www.concursolutions.com/api/expense/extract/2010/02\\": "ns"
-							}
-						}
-					},
-					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
-						}
-					},
-					"enableStaging": false
-				},
-				"inputs": [
-					{
-						"referenceName": "Xml1",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "ds_sample_xml_output_files",
 						"type": "DatasetReference"
 					}
 				]
