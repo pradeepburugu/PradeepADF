@@ -277,7 +277,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "ds_sample_xml_output_files",
+						"referenceName": "DelimitedText1",
 						"type": "DatasetReference"
 					}
 				]
