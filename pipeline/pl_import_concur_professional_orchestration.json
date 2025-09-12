@@ -231,7 +231,7 @@
 							"type": "XmlReadSettings",
 							"validationMode": "none",
 							"detectDataType": true,
-							"namespaces": false,
+							"namespaces": true,
 							"compressionProperties": {
 								"type": "ZipDeflateReadSettings"
 							}
