@@ -1,24 +1,19 @@
 {
-	"name": "ds_sample_xml_output_files",
+	"name": "Xml1",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
-		"type": "DelimitedText",
+		"type": "Xml",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "test2.txt",
+				"fileName": "test1.txt",
 				"folderPath": "dentsply/xmlfiles",
 				"fileSystem": "concur"
-			},
-			"columnDelimiter": ",",
-			"escapeChar": "\\",
-			"firstRowAsHeader": false,
-			"quoteChar": "\""
-		},
-		"schema": []
+			}
+		}
 	}
 }

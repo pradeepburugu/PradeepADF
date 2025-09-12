@@ -196,7 +196,7 @@
 				"typeProperties": {
 					"variableName": "xmlfileresponse",
 					"value": {
-						"value": "@string(activity('get_job_list').output.Response)",
+						"value": "@xml(activity('get_job_list').output.Response)",
 						"type": "Expression"
 					}
 				}
@@ -226,7 +226,10 @@
 						"additionalColumns": [
 							{
 								"name": "xml",
-								"value": "@variables('xmlfileresponse')"
+								"value": {
+									"value": "@variables('xmlfileresponse')",
+									"type": "Expression"
+								}
 							}
 						],
 						"storeSettings": {
@@ -303,14 +306,20 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
+						"type": "XmlSource",
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
 							"recursive": true,
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
+							"type": "XmlReadSettings",
+							"validationMode": "none",
+							"detectDataType": true,
+							"namespaces": true,
+							"namespacePrefixes": {
+								"http://www.concursolutions.com/api/expense/extract/2010/02\\": "ns"
+							}
 						}
 					},
 					"sink": {
@@ -324,32 +333,11 @@
 							"fileExtension": ".txt"
 						}
 					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"type": "String",
-									"ordinal": 1
-								},
-								"sink": {
-									"type": "String",
-									"physicalType": "String",
-									"ordinal": 1
-								}
-							}
-						],
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
+					"enableStaging": false
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_sample_xml_output_files",
+						"referenceName": "Xml1",
 						"type": "DatasetReference"
 					}
 				],
