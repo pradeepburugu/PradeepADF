@@ -19,6 +19,12 @@
 				},
 				{
 					"name": "flatten1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "derivedColumn2"
 				}
 			],
 			"scriptLines": [
@@ -39,12 +45,14 @@
 				"     format: 'xml',",
 				"     namespaces: true,",
 				"     namespacePrefixes: ['http://www.concursolutions.com/api/expense/extract/2010/02'->'ns']) ~> parse1",
-				"XML foldDown(unroll(),",
+				"derivedColumn2 foldDown(unroll(),",
 				"     mapColumn(",
 				"          {_corrupt_record}",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> flatten1"
+				"     skipDuplicateMapOutputs: false) ~> flatten1",
+				"XML derive({_corrupt_record} = replace({_corrupt_record}, '\\\\', '')) ~> derivedColumn1",
+				"derivedColumn1 derive({_corrupt_record} = substring({_corrupt_record}, 1, length({_corrupt_record})-1)) ~> derivedColumn2"
 			]
 		}
 	}
