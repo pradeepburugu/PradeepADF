@@ -5,6 +5,8 @@
 			{
 				"name": "get_oauth2_token",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -47,6 +49,8 @@
 			{
 				"name": "get_Job_Definition_ID",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "access_token",
@@ -89,6 +93,8 @@
 			{
 				"name": "GetJobDefinition",
 				"type": "AzureFunctionActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "get_Job_Definition_ID",
@@ -121,6 +127,8 @@
 			{
 				"name": "access_token",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "get_oauth2_token",
@@ -145,6 +153,8 @@
 			{
 				"name": "get_job_list",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "GetJobDefinition",
@@ -180,6 +190,8 @@
 			{
 				"name": "xml file list",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "get_job_list",
@@ -204,6 +216,8 @@
 			{
 				"name": "Copy data to storage",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "xml file list",
@@ -285,11 +299,9 @@
 			{
 				"name": "dataflow1",
 				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "Copy data to storage",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -314,118 +326,6 @@
 					},
 					"traceLevel": "Fine"
 				}
-			},
-			{
-				"name": "Copy data1",
-				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Copy data to storage",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "XmlSource",
-						"storeSettings": {
-							"type": "AzureBlobFSReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "XmlReadSettings",
-							"validationMode": "none",
-							"namespaces": true
-						}
-					},
-					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
-						}
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"path": "$['jobs']['job'][0]['id']"
-								},
-								"sink": {
-									"name": "id"
-								}
-							},
-							{
-								"source": {
-									"path": "$['jobs']['job'][0]['status-link']"
-								},
-								"sink": {
-									"name": "status-link"
-								}
-							},
-							{
-								"source": {
-									"path": "$['jobs']['job'][0]['start-time']"
-								},
-								"sink": {
-									"name": "start-time"
-								}
-							},
-							{
-								"source": {
-									"path": "$['jobs']['job'][0]['stop-time']"
-								},
-								"sink": {
-									"name": "stop-time"
-								}
-							},
-							{
-								"source": {
-									"path": "$['jobs']['job'][0]['status']"
-								},
-								"sink": {
-									"name": "status"
-								}
-							},
-							{
-								"source": {
-									"path": "$['jobs']['job'][0]['file-link']"
-								},
-								"sink": {
-									"name": "file-link"
-								}
-							}
-						]
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "Xml1",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "DelimitedText2",
-						"type": "DatasetReference"
-					}
-				]
 			}
 		],
 		"parameters": {
