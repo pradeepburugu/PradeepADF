@@ -5,9 +5,6 @@
 			"url": {
 				"type": "String"
 			},
-			"Authorization": {
-				"type": "String"
-			},
 			"ContentType": {
 				"type": "String"
 			},
@@ -19,12 +16,7 @@
 		"type": "HttpServer",
 		"typeProperties": {
 			"url": "@{linkedService().url}",
-			"authenticationType": "Anonymous",
-			"headers": {
-				"Authorization": "@{linkedService().Authorization}",
-				"Content-Type": "@{linkedService().ContentType}",
-				"charset": "@{linkedService().charset}"
-			}
+			"authenticationType": "Anonymous"
 		}
 	}
 }
