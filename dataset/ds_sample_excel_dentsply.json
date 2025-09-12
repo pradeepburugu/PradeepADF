@@ -10,11 +10,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "test.xlsx",
+				"fileName": "DummyGetFiles.xlsx",
 				"folderPath": "dentsply/xmlfiles",
 				"fileSystem": "concur"
-			},
-			"sheetIndex": 0
+			}
 		},
 		"schema": [
 			{
