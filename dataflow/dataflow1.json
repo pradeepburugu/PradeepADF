@@ -12,14 +12,16 @@
 					"name": "XML"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
-				{
-					"name": "parse1"
-				},
-				{
-					"name": "flatten1"
-				},
 				{
 					"name": "derivedColumn1"
 				},
@@ -37,22 +39,19 @@
 				"     format: 'xml',",
 				"     fileSystem: 'concur',",
 				"     folderPath: 'dentsply/xmlfiles',",
-				"     fileName: 'test1.txt',",
+				"     fileName: 'test2.txt',",
 				"     validationMode: 'none',",
 				"     namespaces: true,",
 				"     namespacePrefixes: ['http://www.concursolutions.com/api/expense/extract/2010/02'->'ns']) ~> XML",
-				"flatten1 parse(id = ERROR_FUNCTION(''),",
-				"     format: 'xml',",
-				"     namespaces: true,",
-				"     namespacePrefixes: ['http://www.concursolutions.com/api/expense/extract/2010/02'->'ns']) ~> parse1",
-				"derivedColumn2 foldDown(unroll(),",
-				"     mapColumn(",
-				"          {_corrupt_record}",
-				"     ),",
-				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> flatten1",
 				"XML derive({_corrupt_record} = replace({_corrupt_record}, '\\\\', '')) ~> derivedColumn1",
-				"derivedColumn1 derive({_corrupt_record} = substring({_corrupt_record}, 1, length({_corrupt_record})-1)) ~> derivedColumn2"
+				"derivedColumn1 derive({_corrupt_record} = substring({_corrupt_record}, 1, length({_corrupt_record})-1)) ~> derivedColumn2",
+				"derivedColumn2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
