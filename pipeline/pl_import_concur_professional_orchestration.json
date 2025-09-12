@@ -196,7 +196,7 @@
 				"typeProperties": {
 					"variableName": "xmlfileresponse",
 					"value": {
-						"value": "@activity('get_job_list').output.Response",
+						"value": "@substring(replace(string(activity('get_job_list').output.Response), '\\\\\"', ''), 1, sub(length(replace(string(activity('get_job_list').output.Response), '\\\\\"', '')), 2))\n\n",
 						"type": "Expression"
 					}
 				}
@@ -227,7 +227,7 @@
 							{
 								"name": "xml",
 								"value": {
-									"value": "@variables('xmlfileresponse')",
+									"value": "@substring(replace(string(variables('xmlfileresponse')), '\\\\\"', ''), 1, sub(length(replace(string(variables('xmlfileresponse')), '\\\\\"', '')), 2))",
 									"type": "Expression"
 								}
 							}
@@ -288,6 +288,8 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data to storage",
