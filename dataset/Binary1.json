@@ -12,6 +12,9 @@
 				"type": "AzureBlobFSLocation",
 				"folderPath": "dentsply/xmlfiles",
 				"fileSystem": "concur"
+			},
+			"compression": {
+				"type": "ZipDeflate"
 			}
 		}
 	}

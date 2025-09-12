@@ -231,26 +231,20 @@
 							"type": "XmlReadSettings",
 							"validationMode": "none",
 							"detectDataType": true,
-							"namespaces": true
+							"namespaces": true,
+							"compressionProperties": {
+								"type": "ZipDeflateReadSettings"
+							}
 						}
 					},
 					"sink": {
-						"type": "DelimitedTextSink",
+						"type": "BinarySink",
 						"storeSettings": {
 							"type": "AzureBlobFSWriteSettings",
 							"copyBehavior": "FlattenHierarchy"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
 						}
 					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mapComplexValuesToString": false
-					}
+					"enableStaging": false
 				},
 				"inputs": [
 					{
@@ -275,7 +269,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "ds_sink_xml",
+						"referenceName": "Binary1",
 						"type": "DatasetReference"
 					}
 				]
