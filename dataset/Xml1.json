@@ -8,18 +8,6 @@
 				"url": {
 					"value": "@dataset().url",
 					"type": "Expression"
-				},
-				"Authorization": {
-					"value": "@dataset().Authorization",
-					"type": "Expression"
-				},
-				"ContentType": {
-					"value": "@dataset().ContentType",
-					"type": "Expression"
-				},
-				"charset": {
-					"value": "@dataset().charset",
-					"type": "Expression"
 				}
 			}
 		},
@@ -42,6 +30,9 @@
 		"typeProperties": {
 			"location": {
 				"type": "HttpServerLocation"
+			},
+			"compression": {
+				"type": "ZipDeflate"
 			}
 		}
 	}

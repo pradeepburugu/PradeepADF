@@ -231,10 +231,7 @@
 							"type": "XmlReadSettings",
 							"validationMode": "none",
 							"detectDataType": true,
-							"namespaces": true,
-							"namespacePrefixes": {
-								"http://www.concursolutions.com/api/expense/extract/2010/02": "ns"
-							}
+							"namespaces": true
 						}
 					},
 					"sink": {
