@@ -1,0 +1,25 @@
+{
+	"name": "ls_test",
+	"properties": {
+		"type": "HttpServer",
+		"parameters": {
+			"url": {
+				"type": "String"
+			},
+			"Authorization": {
+				"type": "String"
+			},
+			"ContentType": {
+				"type": "String"
+			},
+			"charset": {
+				"type": "String"
+			}
+		},
+		"typeProperties": {
+			"authenticationType": "Anonymous",
+			"url": "@{linkedService().url}"
+		},
+		"annotations": []
+	}
+}
