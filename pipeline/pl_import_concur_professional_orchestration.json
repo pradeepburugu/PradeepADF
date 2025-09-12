@@ -196,7 +196,7 @@
 				"typeProperties": {
 					"variableName": "xmlfileresponse",
 					"value": {
-						"value": "@xml(activity('get_job_list').output.Response)",
+						"value": "@activity('get_job_list').output.Response",
 						"type": "Expression"
 					}
 				}
