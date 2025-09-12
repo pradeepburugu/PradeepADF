@@ -39,7 +39,7 @@
 				"     format: 'xml',",
 				"     fileSystem: 'concur',",
 				"     folderPath: 'dentsply/xmlfiles',",
-				"     fileName: 'test2.txt',",
+				"     fileName: 'DentsplyGetFilesXml.txt',",
 				"     validationMode: 'none',",
 				"     namespaces: true,",
 				"     namespacePrefixes: ['http://www.concursolutions.com/api/expense/extract/2010/02'->'ns']) ~> XML",
