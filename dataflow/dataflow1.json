@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "DelimitedText1",
+						"referenceName": "ds_sample_xml_get_files_sink",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
