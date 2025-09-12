@@ -261,15 +261,38 @@
 							"supportRFC5988": "true"
 						}
 					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mapComplexValuesToString": false
-					}
+					"sink": {
+						"type": "BinarySink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						}
+					},
+					"enableStaging": false
 				},
 				"inputs": [
 					{
 						"referenceName": "ds_test",
+						"type": "DatasetReference",
+						"parameters": {
+							"url": {
+								"value": "@concat(pipeline().parameters.base_url,'/api/expense/extract/v1.0/',activity('GetJobDefinition').output.id,'/job')",
+								"type": "Expression"
+							},
+							"Authorization": {
+								"value": "@variables('access_token')",
+								"type": "Expression"
+							},
+							"charset": {
+								"value": "@pipeline().parameters.charset",
+								"type": "Expression"
+							},
+							"ContentType": "application/json"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Binary1",
 						"type": "DatasetReference"
 					}
 				]
