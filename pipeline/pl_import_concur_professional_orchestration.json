@@ -226,10 +226,7 @@
 						"additionalColumns": [
 							{
 								"name": "xml",
-								"value": {
-									"value": "@substring(string(variables('xmlfileresponse')), 1, sub(length(string(variables('xmlfileresponse'))), 2))",
-									"type": "Expression"
-								}
+								"value": "@substring(string(variables('xmlfileresponse')), 1, sub(length(string(variables('xmlfileresponse'))), 2))"
 							}
 						],
 						"storeSettings": {
