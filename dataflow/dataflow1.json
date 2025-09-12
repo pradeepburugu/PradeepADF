@@ -23,15 +23,15 @@
 			],
 			"transformations": [
 				{
-					"name": "derivedColumn1"
+					"name": "parse1"
 				},
 				{
-					"name": "derivedColumn2"
+					"name": "flatten1"
 				}
 			],
 			"scriptLines": [
 				"source(output(",
-				"          {_corrupt_record} as string",
+				"          {ns:jobs} as ({ns:job} as ({ns:file-link} as string, {ns:id} as string, {ns:start-time} as string, {ns:status} as string, {ns:status-link} as string, {ns:stop-time} as string)[])",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
@@ -43,9 +43,20 @@
 				"     validationMode: 'none',",
 				"     namespaces: true,",
 				"     namespacePrefixes: ['http://www.concursolutions.com/api/expense/extract/2010/02'->'ns']) ~> XML",
-				"XML derive({_corrupt_record} = replace({_corrupt_record}, '\\\\', '')) ~> derivedColumn1",
-				"derivedColumn1 derive({_corrupt_record} = substring({_corrupt_record}, 1, length({_corrupt_record})-1)) ~> derivedColumn2",
-				"derivedColumn2 sink(allowSchemaDrift: true,",
+				"flatten1 parse(format: 'xml',",
+				"     namespaces: true) ~> parse1",
+				"XML foldDown(unroll({ns:jobs}.{ns:job}),",
+				"     mapColumn(",
+				"          {ns:file-link} = {ns:jobs}.{ns:job}.{ns:file-link},",
+				"          {ns:id} = {ns:jobs}.{ns:job}.{ns:id},",
+				"          {ns:start-time} = {ns:jobs}.{ns:job}.{ns:start-time},",
+				"          {ns:status} = {ns:jobs}.{ns:job}.{ns:status},",
+				"          {ns:status-link} = {ns:jobs}.{ns:job}.{ns:status-link},",
+				"          {ns:stop-time} = {ns:jobs}.{ns:job}.{ns:stop-time}",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten1",
+				"parse1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     umask: 0022,",
 				"     preCommands: [],",
