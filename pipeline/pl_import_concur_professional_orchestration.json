@@ -288,6 +288,8 @@
 			{
 				"name": "Get Latest File To Process",
 				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy XML File list to storage",
