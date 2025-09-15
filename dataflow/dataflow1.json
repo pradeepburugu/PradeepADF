@@ -23,10 +23,13 @@
 			],
 			"transformations": [
 				{
-					"name": "parse1"
+					"name": "flatten1"
 				},
 				{
-					"name": "flatten1"
+					"name": "filter1"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -39,24 +42,22 @@
 				"     format: 'xml',",
 				"     fileSystem: 'concur',",
 				"     folderPath: 'dentsply/xmlfiles',",
-				"     fileName: 'DentsplyGetFilesXml.txt',",
+				"     fileName: 'XML.txt',",
 				"     validationMode: 'none',",
 				"     namespaces: true,",
 				"     namespacePrefixes: ['http://www.concursolutions.com/api/expense/extract/2010/02'->'ns']) ~> XML",
-				"flatten1 parse(format: 'xml',",
-				"     namespaces: true) ~> parse1",
 				"XML foldDown(unroll({ns:jobs}.{ns:job}),",
 				"     mapColumn(",
-				"          {ns:file-link} = {ns:jobs}.{ns:job}.{ns:file-link},",
-				"          {ns:id} = {ns:jobs}.{ns:job}.{ns:id},",
-				"          {ns:start-time} = {ns:jobs}.{ns:job}.{ns:start-time},",
-				"          {ns:status} = {ns:jobs}.{ns:job}.{ns:status},",
-				"          {ns:status-link} = {ns:jobs}.{ns:job}.{ns:status-link},",
-				"          {ns:stop-time} = {ns:jobs}.{ns:job}.{ns:stop-time}",
+				"          {file-link} = {ns:jobs}.{ns:job}.{ns:file-link},",
+				"          id = {ns:jobs}.{ns:job}.{ns:id},",
+				"          status = {ns:jobs}.{ns:job}.{ns:status}",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> flatten1",
-				"parse1 sink(allowSchemaDrift: true,",
+				"flatten1 filter(equals(status,'Completed')) ~> filter1",
+				"filter1 derive(id = split(id, '/')[size(split(id, '/'))]\r",
+				") ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     umask: 0022,",
 				"     preCommands: [],",
