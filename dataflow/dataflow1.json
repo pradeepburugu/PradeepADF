@@ -101,6 +101,7 @@
 				"LeftJoin filter(isNull(jobId)) ~> FilterNewFiles",
 				"OnlyFileLinks sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     partitionFileNames:[''],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
