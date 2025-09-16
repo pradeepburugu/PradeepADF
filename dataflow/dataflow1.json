@@ -21,6 +21,10 @@
 			],
 			"sinks": [
 				{
+					"linkedService": {
+						"referenceName": "AzureDataLakeStorage1",
+						"type": "LinkedServiceReference"
+					},
 					"name": "WriteNewIds"
 				}
 			],
@@ -38,7 +42,10 @@
 					"name": "LeftJoin"
 				},
 				{
-					"name": "FilteroutNewjobIDs"
+					"name": "OnlyFileLinks"
+				},
+				{
+					"name": "FilterNewFiles"
 				}
 			],
 			"scriptLines": [
@@ -85,13 +92,28 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> LeftJoin",
-				"LeftJoin filter(isNull(jobId)) ~> FilteroutNewjobIDs",
-				"FilteroutNewjobIDs sink(allowSchemaDrift: true,",
+				"FilterNewFiles select(mapColumn(",
+				"          {file-link},",
+				"          id",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> OnlyFileLinks",
+				"LeftJoin filter(isNull(jobId)) ~> FilterNewFiles",
+				"OnlyFileLinks sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     format: 'delimited',",
+				"     fileSystem: 'concur',",
+				"     folderPath: 'dentsply/ReferencesFiles/NewFileList.csv',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '',",
+				"     quoteChar: '',",
+				"     columnNamesAsHeader: true,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     preCommands: [],",
-				"     postCommands: []) ~> WriteNewIds"
+				"     saveOrder: 0) ~> WriteNewIds"
 			]
 		}
 	}

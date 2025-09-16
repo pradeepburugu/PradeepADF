@@ -288,8 +288,6 @@
 			{
 				"name": "Get Latest File To Process",
 				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy XML File list to storage",
@@ -316,6 +314,26 @@
 						"computeType": "General"
 					},
 					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DownlaodFiles",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get Latest File To Process",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('dataflow1').output.runStatus.output.<YourCacheSinkName>.value",
+						"type": "Expression"
+					},
+					"isSequential": true
 				}
 			}
 		],
