@@ -352,11 +352,7 @@
 									"type": "BinarySource",
 									"storeSettings": {
 										"type": "HttpReadSettings",
-										"requestMethod": "GET",
-										"additionalHeaders": {
-											"value": "{\n  \"Authorization\": variables('access_token'),\n  \"Content-Type\": \"application/json\"\n}",
-											"type": "Expression"
-										}
+										"requestMethod": "GET"
 									},
 									"formatSettings": {
 										"type": "BinaryReadSettings",
@@ -380,6 +376,15 @@
 									"parameters": {
 										"url": {
 											"value": "@item().filelink",
+											"type": "Expression"
+										},
+										"Authorization": {
+											"value": "@variables('access_token')",
+											"type": "Expression"
+										},
+										"ContentType": "application/json",
+										"charset": {
+											"value": "@pipeline().parameters.charset",
 											"type": "Expression"
 										}
 									}
