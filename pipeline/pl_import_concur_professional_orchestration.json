@@ -5,6 +5,8 @@
 			{
 				"name": "get_oauth2_token",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -47,6 +49,8 @@
 			{
 				"name": "get_Job_Definition_ID",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "access_token",
@@ -89,6 +93,8 @@
 			{
 				"name": "GetJobDefinition",
 				"type": "AzureFunctionActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "get_Job_Definition_ID",
@@ -121,6 +127,8 @@
 			{
 				"name": "access_token",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "get_oauth2_token",
@@ -145,6 +153,8 @@
 			{
 				"name": "get_job_list",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "GetJobDefinition",
@@ -180,6 +190,8 @@
 			{
 				"name": "xml file list",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "get_job_list",
@@ -204,6 +216,8 @@
 			{
 				"name": "Copy XML File list to storage",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "xml file list",
@@ -288,6 +302,8 @@
 			{
 				"name": "Get Latest File To Process",
 				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy XML File list to storage",
