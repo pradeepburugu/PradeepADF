@@ -2,16 +2,28 @@
 	"name": "ds_download_new_files",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureDataLakeStorage1",
+			"referenceName": "ls_get_new_file_downloaded",
 			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Authorization": {
+				"type": "string"
+			},
+			"ContentType": {
+				"type": "string"
+			},
+			"charset": {
+				"type": "string"
+			},
+			"url": {
+				"type": "string"
+			}
 		},
 		"annotations": [],
 		"type": "Binary",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobFSLocation",
-				"folderPath": "dentsply/raw",
-				"fileSystem": "concur"
+				"type": "HttpServerLocation"
 			},
 			"compression": {
 				"type": "ZipDeflate",
