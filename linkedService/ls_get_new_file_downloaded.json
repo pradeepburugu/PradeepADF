@@ -1,7 +1,6 @@
 {
 	"name": "ls_get_new_file_downloaded",
 	"properties": {
-		"type": "HttpServer",
 		"parameters": {
 			"url": {
 				"type": "String"
@@ -16,15 +15,11 @@
 				"type": "String"
 			}
 		},
+		"annotations": [],
+		"type": "HttpServer",
 		"typeProperties": {
-			"authenticationType": "Anonymous",
 			"url": "@{linkedService().url}",
-			"headers": {
-				"Authorization": "@{linkedService().Authorization}",
-				"Content-Type": "@{linkedService().ContentType}",
-				"charset": "@{linkedService().charset}"
-			}
-		},
-		"annotations": []
+			"authenticationType": "Anonymous"
+		}
 	}
 }
