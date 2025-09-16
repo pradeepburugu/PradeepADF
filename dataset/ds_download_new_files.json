@@ -3,7 +3,25 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_get_new_file_downloaded",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"url": {
+					"value": "@dataset().url",
+					"type": "Expression"
+				},
+				"Authorization": {
+					"value": "@dataset().Authorization",
+					"type": "Expression"
+				},
+				"ContentType": {
+					"value": "@dataset().ContentType",
+					"type": "Expression"
+				},
+				"charset": {
+					"value": "@dataset().charset",
+					"type": "Expression"
+				}
+			}
 		},
 		"parameters": {
 			"Authorization": {
