@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "NewFileList.csv",
+				"fileName": "*.csv",
 				"folderPath": "dentsply/ReferencesFiles",
 				"fileSystem": "concur"
 			},
