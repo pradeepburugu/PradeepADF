@@ -5,13 +5,25 @@
 			"referenceName": "AzureDataLakeStorage1",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"id": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "Binary",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "dentsply/raw",
-				"fileSystem": "concur"
+				"fileName": {
+					"value": "@dataset().id",
+					"type": "Expression"
+				},
+				"folderPath": "dentsply/raw"
+			},
+			"compression": {
+				"type": "ZipDeflate",
+				"level": "Fastest"
 			}
 		}
 	}
