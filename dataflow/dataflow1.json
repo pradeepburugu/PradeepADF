@@ -21,9 +21,9 @@
 			],
 			"sinks": [
 				{
-					"linkedService": {
-						"referenceName": "AzureDataLakeStorage1",
-						"type": "LinkedServiceReference"
+					"dataset": {
+						"referenceName": "ds_get_new_file_links",
+						"type": "DatasetReference"
 					},
 					"name": "WriteNewIds"
 				}
@@ -101,13 +101,6 @@
 				"LeftJoin filter(isNull(jobId)) ~> FilterNewFiles",
 				"OnlyFileLinks sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'delimited',",
-				"     fileSystem: 'concur',",
-				"     folderPath: (dentsply/ReferencesFiles),",
-				"     columnDelimiter: ',',",
-				"     escapeChar: '',",
-				"     quoteChar: '',",
-				"     columnNamesAsHeader: true,",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",

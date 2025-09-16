@@ -10,14 +10,14 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "*.csv",
+				"fileName": "NewFileList.csv",
 				"folderPath": "dentsply/ReferencesFiles",
 				"fileSystem": "concur"
 			},
 			"columnDelimiter": ",",
-			"escapeChar": "\\",
+			"escapeChar": "",
 			"firstRowAsHeader": true,
-			"quoteChar": "\""
+			"quoteChar": ""
 		},
 		"schema": []
 	}
