@@ -1,0 +1,30 @@
+{
+	"name": "ls_get_new_file_downloaded",
+	"properties": {
+		"type": "HttpServer",
+		"parameters": {
+			"url": {
+				"type": "String"
+			},
+			"Authorization": {
+				"type": "String"
+			},
+			"ContentType": {
+				"type": "String"
+			},
+			"charset": {
+				"type": "String"
+			}
+		},
+		"typeProperties": {
+			"authenticationType": "Anonymous",
+			"url": "@{linkedService().url}",
+			"additionalHeaders": {
+				"Authorization": "@{linkedService().Authorization}",
+				"Content-Type": "@{linkedService().ContentType}",
+				"charset": "@{linkedService().charset}"
+			}
+		},
+		"annotations": []
+	}
+}
