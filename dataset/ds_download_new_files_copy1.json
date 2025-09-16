@@ -16,10 +16,13 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": {
-					"value": "@dataset().id",
+					"value": "@concat(dataset().id,'.zip')",
 					"type": "Expression"
 				},
-				"folderPath": "dentsply/raw",
+				"folderPath": {
+					"value": "dentsply/raw",
+					"type": "Expression"
+				},
 				"fileSystem": "concur"
 			},
 			"compression": {
