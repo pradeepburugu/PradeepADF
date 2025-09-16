@@ -4,15 +4,6 @@
 		"parameters": {
 			"url": {
 				"type": "String"
-			},
-			"Authorization": {
-				"type": "String"
-			},
-			"ContentType": {
-				"type": "String"
-			},
-			"charset": {
-				"type": "String"
 			}
 		},
 		"annotations": [],
