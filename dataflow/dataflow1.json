@@ -21,11 +21,7 @@
 			],
 			"sinks": [
 				{
-					"dataset": {
-						"referenceName": "ds_sample_xml_get_files_sink",
-						"type": "DatasetReference"
-					},
-					"name": "sink1"
+					"name": "WriteNewIds"
 				}
 			],
 			"transformations": [
@@ -40,6 +36,9 @@
 				},
 				{
 					"name": "LeftJoin"
+				},
+				{
+					"name": "FilteroutNewjobIDs"
 				}
 			],
 			"scriptLines": [
@@ -59,15 +58,18 @@
 				"source(output(",
 				"          jobId as string",
 				"     ),",
+				"     useSchema: false,",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     format: 'excel',",
+				"     format: 'delimited',",
 				"     fileSystem: 'concur',",
 				"     folderPath: 'dentsply/ReferencesFiles',",
-				"     fileName: 'UniqueJobIds.xlsx',",
-				"     sheetName: 'Sheet1',",
-				"     firstRowAsHeader: true) ~> UniqueJobIds",
+				"     fileName: 'UniqueJobIds.csv',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true) ~> UniqueJobIds",
 				"XML foldDown(unroll({ns:jobs}.{ns:job}),",
 				"     mapColumn(",
 				"          {file-link} = {ns:jobs}.{ns:job}.{ns:file-link},",
@@ -83,13 +85,13 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> LeftJoin",
-				"LeftJoin sink(allowSchemaDrift: true,",
+				"LeftJoin filter(isNull(jobId)) ~> FilteroutNewjobIDs",
+				"FilteroutNewjobIDs sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     umask: 0022,",
-				"     preCommands: [],",
-				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     preCommands: [],",
+				"     postCommands: []) ~> WriteNewIds"
 			]
 		}
 	}
