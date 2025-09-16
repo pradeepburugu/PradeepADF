@@ -1,5 +1,6 @@
 {
 	"name": "ls_get_new_file_downloaded",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"parameters": {
 			"url": {
@@ -10,7 +11,17 @@
 		"type": "HttpServer",
 		"typeProperties": {
 			"url": "@{linkedService().url}",
-			"authenticationType": "Anonymous"
+			"authenticationType": "Anonymous",
+			"authHeaders": {
+				"Authorization": {
+					"type": "SecureString",
+					"value": "**********"
+				},
+				"Content-Type": {
+					"type": "SecureString",
+					"value": "**********"
+				}
+			}
 		}
 	}
 }
