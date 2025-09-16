@@ -19,7 +19,8 @@
 					"value": "@dataset().id",
 					"type": "Expression"
 				},
-				"folderPath": "dentsply/raw"
+				"folderPath": "dentsply/raw",
+				"fileSystem": "concur"
 			},
 			"compression": {
 				"type": "ZipDeflate",
