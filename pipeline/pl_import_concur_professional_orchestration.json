@@ -393,15 +393,6 @@
 										"url": {
 											"value": "@item().filelink",
 											"type": "Expression"
-										},
-										"Authorization": {
-											"value": "@variables('access_token')",
-											"type": "Expression"
-										},
-										"ContentType": "application/json",
-										"charset": {
-											"value": "@pipeline().parameters.charset",
-											"type": "Expression"
 										}
 									}
 								}
