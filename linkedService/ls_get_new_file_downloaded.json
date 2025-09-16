@@ -19,7 +19,7 @@
 		"typeProperties": {
 			"authenticationType": "Anonymous",
 			"url": "@{linkedService().url}",
-			"additionalHeaders": {
+			"headers": {
 				"Authorization": "@{linkedService().Authorization}",
 				"Content-Type": "@{linkedService().ContentType}",
 				"charset": "@{linkedService().charset}"
