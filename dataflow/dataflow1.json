@@ -106,7 +106,8 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     saveOrder: 0) ~> WriteNewIds"
+				"     saveOrder: 0,",
+				"     partitionBy('hash', 1)) ~> WriteNewIds"
 			]
 		}
 	}
