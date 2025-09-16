@@ -93,7 +93,7 @@
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> LeftJoin",
 				"FilterNewFiles select(mapColumn(",
-				"          {file-link},",
+				"          filelink = {file-link},",
 				"          id",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",

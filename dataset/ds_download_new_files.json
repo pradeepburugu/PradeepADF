@@ -8,31 +8,10 @@
 				"url": {
 					"value": "@dataset().url",
 					"type": "Expression"
-				},
-				"Authorization": {
-					"value": "@dataset().Authorization",
-					"type": "Expression"
-				},
-				"ContentType": {
-					"value": "@dataset().ContentType",
-					"type": "Expression"
-				},
-				"charset": {
-					"value": "@dataset().charset",
-					"type": "Expression"
 				}
 			}
 		},
 		"parameters": {
-			"Authorization": {
-				"type": "string"
-			},
-			"ContentType": {
-				"type": "string"
-			},
-			"charset": {
-				"type": "string"
-			},
 			"url": {
 				"type": "string"
 			}

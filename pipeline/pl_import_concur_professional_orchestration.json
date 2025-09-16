@@ -373,7 +373,18 @@
 							"inputs": [
 								{
 									"referenceName": "ds_download_new_files",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"Authorization": {
+											"value": "@variables('access_token')",
+											"type": "Expression"
+										},
+										"ContentType": "application/json",
+										"charset": {
+											"value": "@pipeline().parameters.charset",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
