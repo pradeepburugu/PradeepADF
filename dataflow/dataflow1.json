@@ -10,6 +10,13 @@
 						"type": "LinkedServiceReference"
 					},
 					"name": "XML"
+				},
+				{
+					"linkedService": {
+						"referenceName": "AzureDataLakeStorage1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "UniqueJobIds"
 				}
 			],
 			"sinks": [
@@ -30,6 +37,9 @@
 				},
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "LeftJoin"
 				}
 			],
 			"scriptLines": [
@@ -46,6 +56,18 @@
 				"     validationMode: 'none',",
 				"     namespaces: true,",
 				"     namespacePrefixes: ['http://www.concursolutions.com/api/expense/extract/2010/02'->'ns']) ~> XML",
+				"source(output(",
+				"          jobId as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'excel',",
+				"     fileSystem: 'concur',",
+				"     folderPath: 'dentsply/ReferencesFiles',",
+				"     fileName: 'UniqueJobIds.xlsx',",
+				"     sheetName: 'Sheet1',",
+				"     firstRowAsHeader: true) ~> UniqueJobIds",
 				"XML foldDown(unroll({ns:jobs}.{ns:job}),",
 				"     mapColumn(",
 				"          {file-link} = {ns:jobs}.{ns:job}.{ns:file-link},",
@@ -55,9 +77,13 @@
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> flatten1",
 				"flatten1 filter(equals(status,'Completed')) ~> filter1",
-				"filter1 derive(id = split(id, '/')[size(split(id, '/'))]\r",
-				") ~> derivedColumn1",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"filter1 derive(id = split(id, '/')[size(split(id, '/'))]) ~> derivedColumn1",
+				"derivedColumn1, UniqueJobIds join(id == jobId,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> LeftJoin",
+				"LeftJoin sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     umask: 0022,",
 				"     preCommands: [],",
