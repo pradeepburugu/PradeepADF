@@ -103,7 +103,7 @@
 				"     validateSchema: false,",
 				"     format: 'delimited',",
 				"     fileSystem: 'concur',",
-				"     folderPath: 'dentsply/ReferencesFiles/NewFileList.csv',",
+				"     folderPath: (dentsply/ReferencesFiles),",
 				"     columnDelimiter: ',',",
 				"     escapeChar: '',",
 				"     quoteChar: '',",
