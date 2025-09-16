@@ -352,7 +352,11 @@
 									"type": "BinarySource",
 									"storeSettings": {
 										"type": "HttpReadSettings",
-										"requestMethod": "GET"
+										"requestMethod": "GET",
+										"additionalHeaders": {
+											"value": "\"Authorization\" : variables('access_token'),\"Content-Type\": \"application/json\"",
+											"type": "Expression"
+										}
 									},
 									"formatSettings": {
 										"type": "BinaryReadSettings",
@@ -375,13 +379,8 @@
 									"referenceName": "ds_download_new_files",
 									"type": "DatasetReference",
 									"parameters": {
-										"Authorization": {
-											"value": "@variables('access_token')",
-											"type": "Expression"
-										},
-										"ContentType": "application/json",
-										"charset": {
-											"value": "@pipeline().parameters.charset",
+										"url": {
+											"value": "@item().filelink",
 											"type": "Expression"
 										}
 									}
