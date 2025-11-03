@@ -1,0 +1,115 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "AzureDataLakeStorage1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "XML"
+				},
+				{
+					"linkedService": {
+						"referenceName": "AzureDataLakeStorage1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "UniqueJobIds"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_get_new_file_links",
+						"type": "DatasetReference"
+					},
+					"name": "WriteNewIds"
+				}
+			],
+			"transformations": [
+				{
+					"name": "flatten1"
+				},
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "LeftJoin"
+				},
+				{
+					"name": "OnlyFileLinks"
+				},
+				{
+					"name": "FilterNewFiles"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {ns:jobs} as ({ns:job} as ({ns:file-link} as string, {ns:id} as string, {ns:start-time} as string, {ns:status} as string, {ns:status-link} as string, {ns:stop-time} as string)[])",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'xml',",
+				"     fileSystem: 'concur',",
+				"     folderPath: 'dentsply/xmlfiles',",
+				"     fileName: 'XML.txt',",
+				"     validationMode: 'none',",
+				"     namespaces: true,",
+				"     namespacePrefixes: ['http://www.concursolutions.com/api/expense/extract/2010/02'->'ns']) ~> XML",
+				"source(output(",
+				"          jobId as string",
+				"     ),",
+				"     useSchema: false,",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'delimited',",
+				"     fileSystem: 'concur',",
+				"     folderPath: 'dentsply/ReferencesFiles',",
+				"     fileName: 'UniqueJobIds.csv',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true) ~> UniqueJobIds",
+				"XML foldDown(unroll({ns:jobs}.{ns:job}),",
+				"     mapColumn(",
+				"          {file-link} = {ns:jobs}.{ns:job}.{ns:file-link},",
+				"          id = {ns:jobs}.{ns:job}.{ns:id},",
+				"          status = {ns:jobs}.{ns:job}.{ns:status}",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten1",
+				"flatten1 filter(equals(status,'Completed')) ~> filter1",
+				"filter1 derive(id = split(id, '/')[size(split(id, '/'))]) ~> derivedColumn1",
+				"derivedColumn1, UniqueJobIds join(id == jobId,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> LeftJoin",
+				"FilterNewFiles select(mapColumn(",
+				"          filelink = {file-link},",
+				"          id",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> OnlyFileLinks",
+				"LeftJoin filter(isNull(jobId)) ~> FilterNewFiles",
+				"OnlyFileLinks sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['NewFileList.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 0,",
+				"     partitionBy('hash', 1)) ~> WriteNewIds"
+			]
+		}
+	}
+}

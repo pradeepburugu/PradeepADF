@@ -1,8 +1,8 @@
 {
-	"name": "ds_learn_output",
+	"name": "ds_sample_xml_get_files_sink",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "ls_test_learn",
+			"referenceName": "AzureDataLakeStorage1",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -10,15 +10,15 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "processed",
-				"fileSystem": "learn"
+				"fileName": "XML.txt",
+				"folderPath": "dentsply/xmlfiles",
+				"fileSystem": "concur"
 			},
 			"columnDelimiter": ",",
-			"escapeChar": "\\",
-			"firstRowAsHeader": true,
-			"quoteChar": "\""
+			"escapeChar": "",
+			"firstRowAsHeader": false,
+			"quoteChar": ""
 		},
 		"schema": []
-	},
-	"type": "Microsoft.DataFactory/factories/datasets"
+	}
 }

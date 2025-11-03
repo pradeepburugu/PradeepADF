@@ -1,9 +1,9 @@
 {
-	"name": "Test",
+	"name": "pl_read_from_storage_gen2",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "Copy from Gen2 source to sink",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -29,7 +29,8 @@
 					"sink": {
 						"type": "DelimitedTextSink",
 						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
+							"type": "AzureBlobFSWriteSettings",
+							"copyBehavior": "FlattenHierarchy"
 						},
 						"formatSettings": {
 							"type": "DelimitedTextWriteSettings",
@@ -49,23 +50,29 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_learn",
-						"type": "DatasetReference"
+						"referenceName": "ds_test_gen2_biiling_report",
+						"type": "DatasetReference",
+						"parameters": {
+							"source_folder": "test/source",
+							"Source_File_Name": "Billing_Report.csv"
+						}
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ds_learn_output",
-						"type": "DatasetReference"
+						"referenceName": "ds_test_gen2_biiling_report",
+						"type": "DatasetReference",
+						"parameters": {
+							"source_folder": "test/target",
+							"Source_File_Name": "Billing_Report.csv"
+						}
 					}
 				]
 			}
 		],
 		"folder": {
-			"name": "RaaS"
+			"name": "Learning"
 		},
-		"annotations": [],
-		"lastPublishTime": "2025-07-08T11:44:55Z"
-	},
-	"type": "Microsoft.DataFactory/factories/pipelines"
+		"annotations": []
+	}
 }

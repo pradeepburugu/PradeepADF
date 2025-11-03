@@ -1,0 +1,486 @@
+{
+	"name": "pl_import_concur_professional_orchestration",
+	"properties": {
+		"activities": [
+			{
+				"name": "get_oauth2_token",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"headers": {
+						"Content-Type": "application/x-www-form-urlencoded"
+					},
+					"url": {
+						"value": "@concat(pipeline().parameters.base_url,'/oauth2/v0/token')",
+						"type": "Expression"
+					},
+					"body": {
+						"value": "client_id=@{pipeline().parameters.client_id}&client_secret=@{pipeline().parameters.client_secret}&grant_type=@{pipeline().parameters.grant_type}&refresh_token=@{pipeline().parameters.refresh_token}\n",
+						"type": "Expression"
+					},
+					"authentication": {
+						"type": "Basic",
+						"username": {
+							"value": "@pipeline().parameters.username",
+							"type": "Expression"
+						},
+						"password": {
+							"type": "AzureKeyVaultSecret",
+							"store": {
+								"referenceName": "ls_manaswini_dev_kv",
+								"type": "LinkedServiceReference"
+							},
+							"secretName": "dentsplyOauth2password"
+						}
+					}
+				}
+			},
+			{
+				"name": "get_Job_Definition_ID",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "access_token",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "GET",
+					"headers": {
+						"Content-Type": "application/json",
+						"charset": {
+							"value": "@pipeline().parameters.charset",
+							"type": "Expression"
+						},
+						"Authorization": {
+							"value": "@variables('access_token')",
+							"type": "Expression"
+						}
+					},
+					"url": {
+						"value": "@concat(pipeline().parameters.base_url,'/api/expense/extract/v1.0/')",
+						"type": "Expression"
+					},
+					"body": {
+						"value": "client_id=@{pipeline().parameters.client_id}&client_secret=@{pipeline().parameters.client_secret}&grant_type=@{pipeline().parameters.grant_type}&refresh_token=@{pipeline().parameters.refresh_token}\n",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "GetJobDefinition",
+				"type": "AzureFunctionActivity",
+				"dependsOn": [
+					{
+						"activity": "get_Job_Definition_ID",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"functionName": "getJobDefinitionId",
+					"body": {
+						"value": "@activity('get_Job_Definition_ID').output",
+						"type": "Expression"
+					},
+					"method": "POST"
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_get_job_definition_id",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "access_token",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "get_oauth2_token",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "access_token",
+					"value": {
+						"value": "Bearer @{activity('get_oauth2_token').output.access_token}",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "get_job_list",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "GetJobDefinition",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "GET",
+					"headers": {
+						"Content-Type": "application/json",
+						"Authorization": {
+							"value": "@variables('access_token')",
+							"type": "Expression"
+						},
+						"charset": "UTF-8"
+					},
+					"url": {
+						"value": "@concat(pipeline().parameters.base_url,'/api/expense/extract/v1.0/',activity('GetJobDefinition').output.id,'/job')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "xml file list",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "get_job_list",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "xmlfileresponse",
+					"value": {
+						"value": "@activity('get_job_list').output.Response",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Copy XML File list to storage",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "xml file list",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ExcelSource",
+						"additionalColumns": [
+							{
+								"name": "xml",
+								"value": {
+									"value": "@variables('xmlfileresponse')",
+									"type": "Expression"
+								}
+							}
+						],
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "xml",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"physicalType": "String",
+									"ordinal": 1
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_sample_excel_dentsply",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_sample_xml_get_files_sink",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Get Latest File To Process",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Copy XML File list to storage",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow1",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DownlaodFiles",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "GetNewFileList",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('GetNewFileList').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "CopyZipFiles",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "BinarySource",
+									"storeSettings": {
+										"type": "HttpReadSettings",
+										"requestMethod": "GET"
+									},
+									"formatSettings": {
+										"type": "BinaryReadSettings",
+										"compressionProperties": {
+											"type": "ZipDeflateReadSettings"
+										}
+									}
+								},
+								"sink": {
+									"type": "BinarySink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_download_new_files",
+									"type": "DatasetReference",
+									"parameters": {
+										"url": {
+											"value": "@item().filelink",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_download_new_files_copy1",
+									"type": "DatasetReference",
+									"parameters": {
+										"id": {
+											"value": "@item().id",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "GetNewFileList",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Get Latest File To Process",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "ds_get_new_file_links",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			}
+		],
+		"parameters": {
+			"username": {
+				"type": "string",
+				"defaultValue": "b63fe8bb-9660-4797-8fa9-dc0f317c4a29"
+			},
+			"base_url": {
+				"type": "string",
+				"defaultValue": "https://us.api.concursolutions.com"
+			},
+			"charset": {
+				"type": "string",
+				"defaultValue": "UTF-8"
+			},
+			"client_id": {
+				"type": "string",
+				"defaultValue": "34569bac-d003-4a2e-b69e-775da4227921"
+			},
+			"client_secret": {
+				"type": "string",
+				"defaultValue": "d8a555ea-1bce-475b-8586-6fc425f55a70"
+			},
+			"grant_type": {
+				"type": "string",
+				"defaultValue": "refresh_token"
+			},
+			"refresh_token": {
+				"type": "string",
+				"defaultValue": "20e4oaq2c7dntny82a2mdxi2245a3z"
+			},
+			"client_name": {
+				"type": "string",
+				"defaultValue": "dentsply"
+			}
+		},
+		"variables": {
+			"access_token": {
+				"type": "String"
+			},
+			"xmlfileresponse": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Concur"
+		},
+		"annotations": []
+	}
+}
