@@ -14,10 +14,6 @@
 				},
 				"secretName": "localMachinepassword"
 			}
-		},
-		"connectVia": {
-			"referenceName": "IR-manaswini-dev",
-			"type": "IntegrationRuntimeReference"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/linkedservices"
