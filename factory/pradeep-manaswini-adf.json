@@ -1,0 +1,15 @@
+{
+	"name": "pradeep-manaswini-adf",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "southeastasia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "4dd7202d-03a3-4c4d-bbdc-b18414d8285a",
+		"tenantId": "b598fea9-a8a2-41c0-a5be-2ad13ca04c1f"
+	}
+}
